@@ -53,16 +53,31 @@ class CheckIfAdmin
      * @param  \Closure  $next
      * @return mixed
      */
+    // public function handle($request, Closure $next)
+    // {
+    //     if (backpack_auth()->guest()) {
+    //         return $this->respondToUnauthorizedRequest($request);
+    //     }
+
+    //     if (! $this->checkIfUserIsAdmin(backpack_user())) {
+    //         return $this->respondToUnauthorizedRequest($request);
+    //     }
+
+    //     return $next($request);
+    // }
+
     public function handle($request, Closure $next)
-    {
-        if (backpack_auth()->guest()) {
-            return $this->respondToUnauthorizedRequest($request);
-        }
-
-        if (! $this->checkIfUserIsAdmin(backpack_user())) {
-            return $this->respondToUnauthorizedRequest($request);
-        }
-
-        return $next($request);
+{
+    if (!backpack_auth()->check()) {
+        return redirect()->route('backpack.auth.login');
     }
+
+    // Restrict access to only specific roles
+    if (!backpack_user()->hasAnyRole(['Admin', 'Manager'])) {
+        abort(403, 'Access denied');
+    }
+
+    return $next($request);
+}
+
 }

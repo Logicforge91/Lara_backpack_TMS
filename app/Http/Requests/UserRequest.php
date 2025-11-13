@@ -22,7 +22,7 @@ class UserRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+  public function rules()
     {
         return [
             // 'name' => 'required|min:5|max:255'
