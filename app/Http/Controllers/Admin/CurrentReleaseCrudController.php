@@ -40,6 +40,7 @@ class CurrentReleaseCrudController extends CrudController
      */
   protected function setupListOperation()
 {
+    $this->crud->removeButton('show');
     // Employee Name
  CRUD::addColumn([
     'name'      => 'employee_id',

@@ -29,8 +29,7 @@ class CompletedReleaseCrudController extends CrudController
         CRUD::setModel(\App\Models\CompletedRelease::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/completed-release');
         CRUD::setEntityNameStrings('completed release', 'completed releases');
-        $this->crud->denyAccess(['create', 'update']);
-    }
+$this->crud->denyAccess(['create', 'update', 'delete']);    }
 
     /**
      * Define what happens when the List operation is loaded.
@@ -40,6 +39,11 @@ class CompletedReleaseCrudController extends CrudController
      */
      protected function setupListOperation()
 {
+
+     $this->crud->removeButton('update');
+    $this->crud->removeButton('delete');
+    $this->crud->removeButton('create');
+    $this->crud->removeButton('show');
     // Employee Name
  CRUD::addColumn([
     'name'      => 'employee_id',
