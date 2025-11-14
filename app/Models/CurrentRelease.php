@@ -26,15 +26,15 @@ class CurrentRelease extends Model
         'deadline_date', 'comments', 'code_verified_by', 'story_points'
     ];
     // protected $hidden = [];
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class, 'employee_id');
+    }
 
-public function employee()
-{
-    return $this->belongsTo(\App\Models\Employee::class);
-}
-
-public function verifiedTeam()
-{
-    return $this->belongsTo(\App\Models\Team::class, 'code_verified_by');
-}
+    // Team that verified code
+    public function verifiedTeam()
+    {
+        return $this->belongsTo(Team::class, 'code_verified_by');
+    }
 
 }
