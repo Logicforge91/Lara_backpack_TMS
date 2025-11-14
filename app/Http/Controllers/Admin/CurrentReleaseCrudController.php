@@ -74,6 +74,7 @@ class CurrentReleaseCrudController extends CrudController
         'options' => [
              'Pending'     => 'Pending',
             'In Progress' => 'In Progress',
+            'Completed' => 'Completed',
             'Released'    => 'Released',
         ],
         'colors' => [
@@ -196,6 +197,7 @@ CRUD::addField([
         'options' => [
             'Pending'     => 'Pending',
             'In Progress' => 'In Progress',
+            'Completed' => 'Completed',
             'Released'    => 'Released',
         ],
         'allows_null' => false,
