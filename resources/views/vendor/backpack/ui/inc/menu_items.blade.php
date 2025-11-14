@@ -6,3 +6,4 @@
 <x-backpack::menu-item title="Employees" icon="la la-question" :link="backpack_url('employee')" />
 <x-backpack::menu-item title="Current releases" icon="la la-question" :link="backpack_url('current-release')" />
 <x-backpack::menu-item title="Completed releases" icon="la la-question" :link="backpack_url('completed-release')" />
+<x-backpack::menu-item title="Tasks" icon="la la-question" :link="backpack_url('task')" />
