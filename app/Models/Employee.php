@@ -38,5 +38,8 @@ class Employee extends Model
         return $this->belongsTo(\App\Models\Team::class);
     }
 
-
+public function releases()
+{
+    return $this->hasMany(CurrentRelease::class, 'employee_id');
+}
 }
