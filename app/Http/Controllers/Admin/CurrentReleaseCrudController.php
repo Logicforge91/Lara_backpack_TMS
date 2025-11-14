@@ -71,10 +71,9 @@ class CurrentReleaseCrudController extends CrudController
         'label' => 'Status',
         'type'  => 'badge',
         'options' => [
-            'pending' => 'Pending',
-            'in-progress' => 'In Progress',
-            'completed' => 'Completed',
-            'released' => 'Released',
+             'Pending'     => 'Pending',
+            'In Progress' => 'In Progress',
+            'Released'    => 'Released',
         ],
         'colors' => [
             'pending' => 'warning',
@@ -131,11 +130,11 @@ class CurrentReleaseCrudController extends CrudController
     ]);
 
     // Release Date
-    CRUD::addColumn([
-        'name'  => 'release_date',
-        'label' => 'Release Date',
-        'type'  => 'date',
-    ]);
+    // CRUD::addColumn([
+    //     'name'  => 'release_date',
+    //     'label' => 'Release Date',
+    //     'type'  => 'date',
+    // ]);
 
     // Created At
     CRUD::addColumn([
@@ -194,10 +193,9 @@ CRUD::addField([
         'label' => 'Status',
         'type'  => 'select_from_array',
         'options' => [
-            'pending'     => 'Pending',
-            'in-progress' => 'In Progress',
-            'completed'   => 'Completed',
-            'released'    => 'Released',
+            'Pending'     => 'Pending',
+            'In Progress' => 'In Progress',
+            'Released'    => 'Released',
         ],
         'allows_null' => false,
         'default'     => 'pending',
@@ -250,11 +248,11 @@ CRUD::addField([
     ]);
 
     // Release Date
-    CRUD::addField([
-        'name'  => 'release_date',
-        'label' => 'Release Date',
-        'type'  => 'date',
-    ]);
+    // CRUD::addField([
+    //     'name'  => 'release_date',
+    //     'label' => 'Release Date',
+    //     'type'  => 'date',
+    // ]);
 }
 
 
@@ -268,53 +266,4 @@ CRUD::addField([
     {
         $this->setupCreateOperation();
     }
-
-
-
-public function update($id)
-{
-    DB::beginTransaction();
-
-    try {
-        // get the request data that Backpack validated/stripped
-        // remove _token/_method if present
-        $data = $this->crud->getRequest()->except(['_token', '_method']);
-
-        // Perform the Backpack update (note: second param is the data array)
-        $response = $this->crud->update($id, $data);
-
-        // $this->crud->entry now contains the updated model
-        $release = $this->crud->entry;
-
-        // If status is 'released' (case-insensitive), move to completed_releases
-        if (isset($release->status) && strtolower($release->status) === 'released') {
-
-            \App\Models\CompletedRelease::create([
-                'employee_id'           => $release->employee_id,
-                'name'                  => $release->name ?? null,
-                'section'               => $release->section,
-                'description'           => $release->description,
-                'start_date'            => $release->start_date,
-                'end_date'              => $release->end_date,
-                'deadline_date'         => $release->deadline_date,
-                'comments'              => $release->comments,
-                'code_verified_by'      => $release->code_verified_by,
-                'story_points'          => $release->story_points,
-                'release_date'          => $release->release_date ?? now(),
-                'release_completed_at'  => now(),
-            ]);
-
-            // delete from current_releases
-            $release->delete();
-        }
-
-        DB::commit();
-        return $response;
-    } catch (\Throwable $e) {
-        DB::rollBack();
-        throw $e; // rethrow so you can see the error (or handle differently)
-    }
-}
-
-
 }
