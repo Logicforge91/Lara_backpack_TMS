@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\CurrentReleaseRequest;
+use Illuminate\Support\Facades\DB;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
@@ -267,4 +268,53 @@ CRUD::addField([
     {
         $this->setupCreateOperation();
     }
+
+
+
+public function update($id)
+{
+    DB::beginTransaction();
+
+    try {
+        // get the request data that Backpack validated/stripped
+        // remove _token/_method if present
+        $data = $this->crud->getRequest()->except(['_token', '_method']);
+
+        // Perform the Backpack update (note: second param is the data array)
+        $response = $this->crud->update($id, $data);
+
+        // $this->crud->entry now contains the updated model
+        $release = $this->crud->entry;
+
+        // If status is 'released' (case-insensitive), move to completed_releases
+        if (isset($release->status) && strtolower($release->status) === 'released') {
+
+            \App\Models\CompletedRelease::create([
+                'employee_id'           => $release->employee_id,
+                'name'                  => $release->name ?? null,
+                'section'               => $release->section,
+                'description'           => $release->description,
+                'start_date'            => $release->start_date,
+                'end_date'              => $release->end_date,
+                'deadline_date'         => $release->deadline_date,
+                'comments'              => $release->comments,
+                'code_verified_by'      => $release->code_verified_by,
+                'story_points'          => $release->story_points,
+                'release_date'          => $release->release_date ?? now(),
+                'release_completed_at'  => now(),
+            ]);
+
+            // delete from current_releases
+            $release->delete();
+        }
+
+        DB::commit();
+        return $response;
+    } catch (\Throwable $e) {
+        DB::rollBack();
+        throw $e; // rethrow so you can see the error (or handle differently)
+    }
+}
+
+
 }

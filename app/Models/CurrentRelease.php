@@ -27,14 +27,14 @@ class CurrentRelease extends Model
     ];
     // protected $hidden = [];
 
-  public function verifiedTeam()
-{
-    return $this->belongsTo(Team::class, 'code_verified_by');
-}
-
 public function employee()
 {
-    return $this->belongsTo(Employee::class, 'employee_id');
+    return $this->belongsTo(\App\Models\Employee::class);
+}
+
+public function verifiedTeam()
+{
+    return $this->belongsTo(\App\Models\Team::class, 'code_verified_by');
 }
 
 }

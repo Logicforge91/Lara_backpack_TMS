@@ -21,7 +21,10 @@ class CompletedRelease extends Model
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
-    // protected $fillable = [];
+   protected $fillable = [
+        'name', 'section', 'description', 'start_date', 'end_date',
+        'deadline_date', 'comments', 'code_verified_by', 'story_points', 'released_date'
+    ];
     // protected $hidden = [];
 
     /*

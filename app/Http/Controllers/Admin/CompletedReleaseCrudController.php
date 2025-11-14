@@ -21,7 +21,7 @@ class CompletedReleaseCrudController extends CrudController
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
-     * 
+     *
      * @return void
      */
     public function setup()
@@ -29,11 +29,12 @@ class CompletedReleaseCrudController extends CrudController
         CRUD::setModel(\App\Models\CompletedRelease::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/completed-release');
         CRUD::setEntityNameStrings('completed release', 'completed releases');
+        $this->crud->denyAccess(['create', 'update']);
     }
 
     /**
      * Define what happens when the List operation is loaded.
-     * 
+     *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
      * @return void
      */
@@ -49,7 +50,7 @@ class CompletedReleaseCrudController extends CrudController
 
     /**
      * Define what happens when the Create operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
      * @return void
      */
@@ -66,7 +67,7 @@ class CompletedReleaseCrudController extends CrudController
 
     /**
      * Define what happens when the Update operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
      * @return void
      */
