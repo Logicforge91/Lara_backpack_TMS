@@ -22,7 +22,7 @@ class CurrentRelease extends Model
     // public $timestamps = false;
     protected $guarded = ['id'];
      protected $fillable = [
-        'name', 'section', 'description', 'status', 'start_date', 'end_date',
+        'employee_id', 'section', 'description', 'status', 'start_date', 'end_date',
         'deadline_date', 'comments', 'code_verified_by', 'story_points'
     ];
     // protected $hidden = [];
