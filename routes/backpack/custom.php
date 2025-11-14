@@ -19,6 +19,8 @@ Route::group([
     Route::crud('user', 'UserCrudController');
     Route::crud('team', 'TeamCrudController');
     Route::crud('employee', 'EmployeeCrudController');
+    Route::crud('current-release', 'CurrentReleaseCrudController');
+    Route::crud('completed-release', 'CompletedReleaseCrudController');
 }); // this should be the absolute last line of this file
 
 /**
