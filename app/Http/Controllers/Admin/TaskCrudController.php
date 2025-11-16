@@ -56,6 +56,9 @@ class TaskCrudController extends CrudController
                 'Pending' => 'Pending',
                 'In Progress' => 'In Progress',
                 'Completed' => 'Completed',
+                   'Released' => 'Released',
+        'On Hold' => 'On Hold',
+        'Cancelled' => 'Cancelled',
             ],
         ]);
         // Add field in create/update form
@@ -158,6 +161,9 @@ CRUD::addColumn([
                 'Pending' => 'Pending',
                 'In Progress' => 'In Progress',
                 'Completed' => 'Completed',
+                   'Released' => 'Released',
+        'On Hold' => 'On Hold',
+        'Cancelled' => 'Cancelled',
             ],
             'default' => 'Pending',
         ]);
