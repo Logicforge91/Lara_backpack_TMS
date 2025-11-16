@@ -7,22 +7,22 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
-    /**
-     * Define the application's command schedule.
-     */
+    protected $commands = [
+        \App\Console\Commands\GenerateMonthlyReports::class,
+         \App\Console\Commands\SendDueReminders::class,
+    ];
+
     protected function schedule(Schedule $schedule): void
     {
-        // Schedule your command here
+        // Run your command every month on 25th at midnight
         $schedule->command('releases:move-released')->hourly();
+        $schedule->command('tasks:generate-monthly-reports')->monthlyOn(25, '00:00');
+        $schedule->command('tasks:due-reminders')->dailyAt('09:00');
     }
 
-    /**
-     * Register the commands for the application.
-     */
     protected function commands(): void
     {
-        $this->load(__DIR__ . '/Commands');
-
+        $this->load(__DIR__.'/Commands');
         require base_path('routes/console.php');
     }
 }
