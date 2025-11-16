@@ -30,6 +30,11 @@ class Task extends Model
         'description',
         'status',
         'due_date',
+          'is_recurring',
+        'recurring_type',
+        'recurring_start_date',
+        'recurring_end_date',
+        'next_run_date',
     ];
     // protected $hidden = [];
  public function employee()

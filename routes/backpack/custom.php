@@ -22,6 +22,7 @@ Route::group([
     Route::crud('current-release', 'CurrentReleaseCrudController');
     Route::crud('completed-release', 'CompletedReleaseCrudController');
     Route::crud('task', 'TaskCrudController');
+    Route::crud('monthly-report', 'MonthlyReportCrudController');
 }); // this should be the absolute last line of this file
 
 /**
