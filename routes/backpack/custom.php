@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Admin\DashboardController;
 // --------------------------
 // Custom Backpack Routes
 // --------------------------
@@ -23,6 +24,8 @@ Route::group([
     Route::crud('completed-release', 'CompletedReleaseCrudController');
     Route::crud('task', 'TaskCrudController');
     Route::crud('monthly-report', 'MonthlyReportCrudController');
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('backpack.dashboard');
+
 }); // this should be the absolute last line of this file
 
 /**

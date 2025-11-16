@@ -56,8 +56,21 @@ class TaskCrudController extends CrudController
                 'Pending' => 'Pending',
                 'In Progress' => 'In Progress',
                 'Completed' => 'Completed',
+                   'Released' => 'Released',
+        'On Hold' => 'On Hold',
+        'Cancelled' => 'Cancelled',
             ],
         ]);
+        // Add field in create/update form
+
+
+// Add column in list view
+CRUD::addColumn([
+    'name' => 'priority',
+    'label' => 'Priority',
+    'type' => 'enum',
+]);
+
          CRUD::column('due_date')->type('date');
 
         // ⭐ Recurring Columns
@@ -72,6 +85,7 @@ class TaskCrudController extends CrudController
             'label' => 'Recurring Type',
             'type'  => 'text',
         ]);
+
 
         CRUD::addColumn([
             'name'  => 'next_run_date',
@@ -98,6 +112,7 @@ class TaskCrudController extends CrudController
             'attribute' => 'name',
         ]);
 
+
         // Task Title
         CRUD::field('title')->type('text')->label('Title');
 
@@ -107,6 +122,19 @@ class TaskCrudController extends CrudController
             'label' => 'Description',
             'type' => 'textarea',
         ]);
+
+        CRUD::addField([
+    'name' => 'priority',
+    'label' => 'Priority',
+    'type' => 'select_from_array',
+    'options' => [
+        'Low' => 'Low',
+        'Medium' => 'Medium',
+        'High' => 'High',
+    ],
+    'default' => 'Medium',
+]);
+
           CRUD::addField([
         'name' => 'due_date',
         'type' => 'date',
@@ -133,6 +161,9 @@ class TaskCrudController extends CrudController
                 'Pending' => 'Pending',
                 'In Progress' => 'In Progress',
                 'Completed' => 'Completed',
+                   'Released' => 'Released',
+        'On Hold' => 'On Hold',
+        'Cancelled' => 'Cancelled',
             ],
             'default' => 'Pending',
         ]);
