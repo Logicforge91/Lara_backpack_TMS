@@ -22,4 +22,10 @@ class MonthlyReport extends Model
     {
         return $this->belongsTo(Task::class);
     }
+
+    public function employee()
+{
+    return $this->belongsTo(Employee::class);
+}
+
 }

@@ -21,7 +21,7 @@ class MonthlyReportCrudController extends CrudController
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
-     * 
+     *
      * @return void
      */
     public function setup()
@@ -29,27 +29,71 @@ class MonthlyReportCrudController extends CrudController
         CRUD::setModel(\App\Models\MonthlyReport::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/monthly-report');
         CRUD::setEntityNameStrings('monthly report', 'monthly reports');
+         CRUD::denyAccess(['create', 'update']);
     }
 
     /**
      * Define what happens when the List operation is loaded.
-     * 
+     *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
      * @return void
      */
-    protected function setupListOperation()
-    {
-        CRUD::setFromDb(); // set columns from db columns.
+   protected function setupListOperation()
+{
+    // Task ID
+    CRUD::addColumn([
+        'name'  => 'task_id',
+        'label' => 'Task ID',
+        'type'  => 'number',
+    ]);
 
-        /**
-         * Columns can be defined using the fluent syntax:
-         * - CRUD::column('price')->type('number');
-         */
-    }
+    // Employee ID
+    CRUD::addColumn([
+        'name'  => 'employee_id',
+        'label' => 'Employee',
+        'type'  => 'select',
+        'entity' => 'employee',        // relation method in model
+        'attribute' => 'name',         // column from employees table
+        'model' => "App\Models\Employee",
+    ]);
+
+    // Task Name
+    CRUD::addColumn([
+        'name'  => 'task_id',
+        'label' => 'Task',
+        'type'  => 'select',
+        'entity' => 'task',        // relation method in model
+        'attribute' => 'name',         // column from employees table
+        'model' => "App\Models\Task",
+    ]);
+
+    // Description
+    CRUD::addColumn([
+        'name'  => 'description',
+        'label' => 'Description',
+        'type'  => 'textarea',
+        'limit' => 50,  // show summary only
+    ]);
+
+    // Status
+    CRUD::addColumn([
+        'name'  => 'status',
+        'label' => 'Status',
+        'type'  => 'enum',
+    ]);
+
+    // Report Date
+    CRUD::addColumn([
+        'name'  => 'report_date',
+        'label' => 'Report Date',
+        'type'  => 'date',
+    ]);
+}
+
 
     /**
      * Define what happens when the Create operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
      * @return void
      */
@@ -66,7 +110,7 @@ class MonthlyReportCrudController extends CrudController
 
     /**
      * Define what happens when the Update operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
      * @return void
      */
