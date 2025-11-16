@@ -53,6 +53,16 @@ protected function setupListOperation()
 
     CRUD::column('title')->label('Title');
 
+CRUD::addColumn([
+    'name'      => 'tags',
+    'label'     => 'Tags',
+    'type'      => 'select_multiple',
+    'entity'    => 'tags',
+    'attribute' => 'name',
+]);
+
+
+
      CRUD::addColumn([
         'name' => 'status',
         'label' => 'Status',
@@ -107,6 +117,18 @@ protected function setupListOperation()
         'label' => 'Description',
         'type' => 'textarea',
     ]);
+
+CRUD::addField([
+    'name'      => 'tags',
+    'label'     => 'Tags',
+    'type'      => 'select_multiple',  // ⭐ WORKS IN BACKPACK FREE
+    'entity'    => 'tags',
+    'model'     => "App\Models\Tag",
+    'attribute' => 'name',
+    'pivot'     => true,
+]);
+
+
 
     // Status Dropdown
     CRUD::addField([
