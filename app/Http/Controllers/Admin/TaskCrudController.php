@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\TaskRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use App\Models\Task;
 
 class TaskCrudController extends CrudController
 {
@@ -57,6 +58,7 @@ class TaskCrudController extends CrudController
                 'Completed' => 'Completed',
             ],
         ]);
+         CRUD::column('due_date')->type('date');
 
         // ⭐ Recurring Columns
         CRUD::addColumn([
@@ -105,6 +107,11 @@ class TaskCrudController extends CrudController
             'label' => 'Description',
             'type' => 'textarea',
         ]);
+          CRUD::addField([
+        'name' => 'due_date',
+        'type' => 'date',
+        'label' => 'Due Date',
+    ]);
 
         // Tags (pivot)
         CRUD::addField([
@@ -178,4 +185,49 @@ class TaskCrudController extends CrudController
     {
         $this->setupCreateOperation();
     }
+
+    public function store()
+{
+    $response = $this->traitStore();
+
+    $task = $this->crud->entry;
+
+    if ($task->employee) {
+        $task->employee->notify(new TaskAssignedNotification($task));
+    }
+
+  //  return $response;
+   return redirect('/admin/task');
+}
+
+public function update()
+{
+    // Correct way to get ID in Backpack
+    $id = $this->crud->getCurrentEntryId();
+
+    // Get old task
+    $oldTask = Task::find($id);
+
+    // Perform Backpack update
+    $response = $this->crud->update($id, request()->all());
+
+    // Get updated task
+    $task = $this->crud->entry;
+
+    // SAFETY CHECK — ensure both objects exist
+    if ($oldTask && $task) {
+
+        // Notify if status changed
+        if ($oldTask->status !== $task->status && $task->employee) {
+            $task->employee->notify(new TaskStatusUpdatedNotification($task));
+        }
+    }
+
+   // return $response;
+    return redirect('/admin/task');
+}
+
+
+
+
 }

@@ -9,6 +9,7 @@ class Kernel extends ConsoleKernel
 {
     protected $commands = [
         \App\Console\Commands\GenerateMonthlyReports::class,
+         \App\Console\Commands\SendDueReminders::class,
     ];
 
     protected function schedule(Schedule $schedule): void
@@ -16,6 +17,7 @@ class Kernel extends ConsoleKernel
         // Run your command every month on 25th at midnight
         $schedule->command('releases:move-released')->hourly();
         $schedule->command('tasks:generate-monthly-reports')->monthlyOn(25, '00:00');
+        $schedule->command('tasks:due-reminders')->dailyAt('09:00');
     }
 
     protected function commands(): void
